@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>WhisperForms - Government Form</title>
+
+    <!-- Main CSS -->
+    <link href="style.css" rel="stylesheet" />
+
+    <!-- Font Awesome for Mic Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Main JS -->
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <h1 class="form-title">Government Form</h1>
+
+        <form id="governmentForm">
+
+            <label for="fullName">Full Name</label>
+            <div class="input-group">
+                <input type="text" id="fullName" placeholder="Enter full name" required>
+                <button type="button" class="mic-btn" data-field-id="fullName">
+                   🎙️
+                </button>
+            </div>
+
+            <label for="govID">Government ID</label>
+            <div class="input-group">
+                <input type="text" id="govID" placeholder="Enter ID number" required>
+                <button type="button" class="mic-btn" data-field-id="govID">
+                   🎙️
+                </button>
+            </div>
+
+            <label for="department">Department</label>
+            <div class="input-group">
+                <select id="department" required>
+                    <option value="">Select Department</option>
+                    <option value="Health">Health</option>
+                    <option value="Education">Education</option>
+                    <option value="Finance">Finance</option>
+                    <option value="Transport">Transport</option>
+                    <option value="Other">Other</option>
+                </select>
+                <button type="button" class="mic-btn" data-field-id="department">
+                    🎙️
+                </button>
+            </div>
+
+            <label for="address">Address</label>
+            <div class="input-group">
+                <input type="text" id="address" placeholder="Enter address" required>
+                <button type="button" class="mic-btn" data-field-id="address">
+                   🎙️
+                </button>
+            </div>
+
+            <label for="purpose">Purpose of Application</label>
+            <div class="input-group">
+                <textarea id="purpose" placeholder="Explain purpose" rows="3" required></textarea>
+                <button type="button" class="mic-btn" data-field-id="purpose">
+                    🎙️
+                </button>
+            </div>
+
+            <button type="submit" class="btn">Submit</button>
+
+            <p class="back-btn" onclick="goBack()">⬅ Back to Forms</p>
+
+            <button type="button" class="voice-btn" data-field-id="command">
+                <i class="fas fa-microphone"></i> Speak Command
+            </button>
+
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Employment Form</title>
+    <link href="style.css" rel="stylesheet" />
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="container">
+        <h1 class="form-title">Employment Form</h1>
+        <form id="employmentForm">
+
+            <label for="fullName">Full Name</label>
+            <div class="input-group">
+                <input type="text" id="fullName" placeholder="Full Name" required />
+                <button type="button" class="mic-btn" data-field-id="fullName">🎙️</button>
+            </div>
+
+            <label for="email">Email</label>
+            <div class="input-group">
+                <input type="email" id="email" placeholder="Email" required />
+                <button type="button" class="mic-btn" data-field-id="email">🎙️</button>
+            </div>
+
+            <label for="phone">Phone Number</label>
+            <div class="input-group">
+                <input type="tel" id="phone" placeholder="Phone Number" required />
+                <button type="button" class="mic-btn" data-field-id="phone">🎙️</button>
+            </div>
+
+            <label for="dob">Date of Birth</label>
+            <div class="input-group">
+                <input type="text" id="dob" placeholder="DOB (e.g. January 1, 1990)" required />
+                <button type="button" class="mic-btn" data-field-id="dob">🎙️</button>
+            </div>
+
+            <label for="gender">Gender</label>
+            <div class="input-group">
+                <select id="gender" required>
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+                <button type="button" class="mic-btn" data-field-id="gender">🎙️</button>
+            </div>
+
+            <label for="jobTitle">Job Position</label>
+            <div class="input-group">
+                <input type="text" id="jobTitle" placeholder="Job Position" required />
+                <button type="button" class="mic-btn" data-field-id="jobTitle">🎙️</button>
+            </div>
+
+            <label for="experience">Work Experience (Years)</label>
+            <div class="input-group">
+                <input type="number" id="experience" placeholder="Years of Experience" required />
+                <button type="button" class="mic-btn" data-field-id="experience">🎙️</button>
+            </div>
+
+            <label for="address">Address</label>
+            <div class="input-group">
+                <textarea id="address" placeholder="Address" required></textarea>
+                <button type="button" class="mic-btn" data-field-id="address">🎙️</button>
+            </div>
+
+            <label for="resume">Upload Resume</label>
+            <input type="file" id="resume" required />
+
+            <button type="submit" class="btn">Submit</button>
+            <p class="back-btn" onclick="goBack()">⬅ Back to Forms</p>
+            <button type="button" class="voice-btn" data-field-id="command">
+                <i class="fas fa-microphone"></i> Speak Command
+            </button>
+
+        </form>
+    </div>
+</body>
+</html>

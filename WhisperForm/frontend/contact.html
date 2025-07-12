@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Contact Form</title>
+    <link href="style.css" rel="stylesheet" />
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="container">
+        <h1 class="form-title">CONTACT US</h1>
+        <form id="contactForm">
+
+            <label for="fullName">Full Name</label>
+            <div class="input-group">
+                <input type="text" id="fullName" placeholder="Full Name" required />
+                <button type="button" class="mic-btn" data-field-id="fullName">🎙️</button>
+            </div>
+
+            <label for="email">Email</label>
+            <div class="input-group">
+                <input type="email" id="email" placeholder="Email" required />
+                <button type="button" class="mic-btn" data-field-id="email">🎙️</button>
+            </div>
+
+            <label for="phone">Phone Number</label>
+            <div class="input-group">
+                <input type="tel" id="phone" placeholder="Phone Number" required />
+                <button type="button" class="mic-btn" data-field-id="phone">🎙️</button>
+            </div>
+
+            <label for="message">Message</label>
+            <div class="input-group">
+                <textarea id="message" placeholder="Your Message" rows="4" required></textarea>
+                <button type="button" class="mic-btn" data-field-id="message">🎙️</button>
+            </div>
+
+            <button type="submit" class="btn">Submit</button>
+            <p class="back-btn" onclick="goBack()">⬅ Back to Forms</p>
+            <button type="button" class="voice-btn" data-field-id="command">
+                🎙️ Speak Command
+            </button>
+
+        </form>
+    </div>
+</body>
+</html>

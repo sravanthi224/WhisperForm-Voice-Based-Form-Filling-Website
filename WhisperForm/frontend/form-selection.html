@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+  <title>WhisperForms - Select Form</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet" />
+
+  <!-- Animate On Scroll (AOS) Library -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+
+  <style>
+    :root {
+      --dark-color: #330000;
+      --light-color: #D09683;
+      --card-bg: rgba(255, 255, 255, 0.95);
+      --card-border: #ffffff55;
+      --hover-bg: #4b1a1a;
+      --shadow-color: rgba(0, 0, 0, 0.15);
+      --shadow-hover: rgba(0, 0, 0, 0.4);
+    }
+
+    body {
+      margin: 0;
+      background-color: var(--light-color);
+      font-family: 'Poppins', sans-serif;
+      color: var(--dark-color);
+      overflow-x: hidden;
+      animation: fadeInBody 1s ease-in;
+    }
+
+    @keyframes fadeInBody {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-header {
+      position: relative;
+      background-color: var(--dark-color);
+      color: white;
+      padding: 60px 20px;
+      text-align: center;
+      font-family: 'Cinzel Decorative', serif;
+      font-style: italic;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      animation: fadeInHeader 1.5s ease;
+    }
+
+    @keyframes fadeInHeader {
+      0% { opacity: 0; transform: translateY(-30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-box {
+      background-color: var(--card-bg);
+      padding: 30px 25px;
+      border-radius: 15px;
+      border: 1px solid var(--card-border);
+      box-shadow: 0 6px 15px var(--shadow-color);
+      backdrop-filter: blur(6px);
+      margin: 40px auto;
+      max-width: 1200px;
+      animation: fadeInSection 1s ease forwards;
+    }
+
+    @keyframes fadeInSection {
+      from { opacity: 0; transform: scale(0.98); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .section-title {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 700;
+      color: var(--dark-color);
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .logout-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  background-color: white;
+  color: #000; /* your dark color */
+  font-weight: 600;
+  border-radius: 6px;
+  border: 1px solid #000;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  z-index: 1000;
+}
+
+.logout-btn:hover {
+  background-color: #000;
+  color: white;
+}
+
+
+    .card {
+      background-color: var(--dark-color);
+      color: white;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      border: 1.5px solid #D09683;
+      box-shadow: 0 4px 8px var(--shadow-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 180px;
+      transition: all 0.3s ease-in-out;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: linear-gradient(to right, #D09683, #fff);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover::after {
+      transform: scaleX(1);
+    }
+
+    .card:hover {
+      background-color: var(--hover-bg);
+      box-shadow: 0 8px 18px var(--shadow-hover);
+      transform: scale(1.05);
+    }
+
+    .card-title {
+      font-weight: 700;
+      padding: 0 10px;
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    .delete-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 0.9rem;
+    }
+
+    .btn:hover {
+      background-color: #4b1a1a !important;
+      color: #fff !important;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 576px) {
+      .card {
+        height: 140px;
+        font-size: 1rem;
+      }
+
+      .section-box {
+        padding: 20px 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Section Header -->
+<div class="section-header">
+  <h1>Select a Form</h1>
+   <button id="logoutBtn" class="logout-btn">Logout</button>
+</div>
+<!-- Voice Command to Open Form -->
+<div class="container mt-4 text-center">
+  <button id="voiceNavBtn" class="btn" style="background-color: #330000; color: white; padding: 12px 24px; font-weight: 600; border-radius: 8px;">
+    🎙️ Speak to Open Form
+  </button>
+  <p id="voiceStatus" class="mt-2 text-muted" style="font-size: 0.95rem;"></p>
+</div>
+
+<!-- Section 1: Create Custom Form -->
+<div class="container mt-4">
+  <div class="section-box">
+    <div class="section-title">Create Your Own Custom Form</div>
+    <div class="d-flex justify-content-center">
+      <div class="col-md-4 col-sm-6 col-10" role="button" tabindex="0" onclick="redirectToForm('custom-form-builder')">
+        <div class="card p-3 text-center border border-2 border-dark">
+          <h5 class="card-title fw-bold">Create Custom Form</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Section 2: Your Custom Forms -->
+<div class="container">
+  <div class="section-box">
+    <div class="section-title">Your Custom Forms</div>
+    <div id="customFormsList" class="row row-cols-1 row-cols-md-3 g-4">
+      <!-- Custom form cards -->
+    </div>
+  </div>
+</div>
+
+<!-- Section 3: Predefined Forms -->
+<div class="container">
+    <div class="section-box" aria-label="Predefined forms section">
+      <div class="section-title">Predefined Forms</div>
+      <div class="row row-cols-1 row-cols-md-3 g-4 predefined">
+        <!-- Predefined Form Cards -->
+        <div class="col" role="button" tabindex="0" aria-pressed="false" aria-label="Registration Form" onclick="redirectToForm('registration')" onkeypress="if(event.key==='Enter'){redirectToForm('registration')}">
+          <div class="card p-3 text-center">
+            <h5 class="card-title fw-bold">Registration Form</h5>
+          </div>
+        </div>
+        <div class="col" role="button" tabindex="0" aria-pressed="false" aria-label="Education Form" onclick="redirectToForm('education')" onkeypress="if(event.key==='Enter'){redirectToForm('education')}">
+          <div class="card p-3 text-center">
+            <h5 class="card-title fw-bold">Education Form</h5>
+          </div>
+        </div>
+        <div class="col" role="button" tabindex="0" aria-pressed="false" aria-label="Healthcare Form" onclick="redirectToForm('healthcare')" onkeypress="if(event.key==='Enter'){redirectToForm('healthcare')}">
+          <div class="card p-3 text-center">
+            <h5 class="card-title fw-bold">Healthcare Form</h5>
+          </div>
+        </div>
+        <div class="col" role="button" tabindex="0" aria-pressed="false" aria-label="Business Form" onclick="redirectToForm('business')" onkeypress="if(event.key==='Enter'){redirectToForm('business')}">
+          <div class="card p-3 text-center">
+            <h5 class="card-title fw-bold">Business Form</h5>
+          </div>
+        </div>
+        <div class="col" role="button" tabindex="0" aria-pressed="false" aria-label="Government Form" onclick="redirectToForm('government')" onkeypress="if(event.key==='Enter'){redirectToForm('government')}">
+          <div class="card p-3 text-center">
+            <h5 class="card-title fw-bold">Government Form</h5>
+          </div>
+        </div>
+        <div class="col" role="button" tabindex="0" aria-pressed="false" aria-label="Employment Form" onclick="redirectToForm('employment')" onkeypress="if(event.key==='Enter'){redirectToForm('employment')}">
+          <div class="card p-3 text-center">
+            <h5 class="card-title fw-bold">Employment Form</h5>
+          </div>
+        </div>
+        <div class="col" role="button" tabindex="0" aria-pressed="false" aria-label="Feedback Form" onclick="redirectToForm('feedback')" onkeypress="if(event.key==='Enter'){redirectToForm('feedback')}">
+          <div class="card p-3 text-center">
+            <h5 class="card-title fw-bold">Feedback Form</h5>
+          </div>
+        </div>
+        <div class="col" role="button" tabindex="0" aria-pressed="false" aria-label="Contact Form" onclick="redirectToForm('contact')" onkeypress="if(event.key==='Enter'){redirectToForm('contact')}">
+          <div class="card p-3 text-center">
+            <h5 class="card-title fw-bold">Contact Form</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- Section 4: Responses -->
+<div class="container">
+  <div class="section-box">
+    <div class="section-title">Responses</div>
+    <div class="text-center">
+      <a href="view-responses.html" class="btn" style="background-color: #330000; color: white; padding: 10px 20px; font-weight: 600; border-radius: 8px; text-decoration: none;">View All Responses</a>
+    </div>
+  </div>
+</div>
+
+
+<script>
+
+function redirectToForm(formType) {
+  window.location.href = formType + ".html";
+}
+
+function loadCustomForms() {
+  const customFormsList = document.getElementById('customFormsList');
+  let storedForms = [];
+
+  try {
+    storedForms = JSON.parse(localStorage.getItem('customForms')) || [];
+  } catch (error) {
+    console.error("Error reading custom forms:", error);
+  }
+
+  if (storedForms.length === 0) {
+    customFormsList.innerHTML = "<p class='text-center text-muted'>No custom forms created yet.</p>";
+  } else {
+    customFormsList.innerHTML = "";
+    storedForms.forEach(form => {
+      const colDiv = document.createElement('div');
+      colDiv.className = 'col';
+
+      const cardDiv = document.createElement('div');
+      cardDiv.className = 'card p-3 text-center border border-2 border-dark';
+      cardDiv.style.position = 'relative';
+      cardDiv.style.cursor = 'pointer';
+      cardDiv.title = "Click to open this form";
+
+      cardDiv.addEventListener("mouseenter", () => {
+        cardDiv.style.boxShadow = "0 4px 12px rgba(0,0,0,0.3)";
+      });
+      cardDiv.addEventListener("mouseleave", () => {
+        cardDiv.style.boxShadow = "none";
+      });
+
+      cardDiv.onclick = (e) => {
+        if (e.target.classList.contains('delete-btn')) return;
+        window.location.href = `custom-form.html?formId=${form.id}`;
+      };
+
+      cardDiv.innerHTML = `
+        <h5 class="card-title fw-bold mb-3">📝 ${form.name}</h5>
+        <button class="delete-btn btn btn-sm btn-danger">Delete</button>
+      `;
+
+      cardDiv.querySelector('.delete-btn').onclick = (e) => {
+        e.stopPropagation();
+        if (confirm(`Are you sure you want to delete the form "${form.name}"?`)) {
+          deleteCustomForm(form.id);
+        }
+      };
+
+      colDiv.appendChild(cardDiv);
+      customFormsList.appendChild(colDiv);
+    });
+  }
+}
+
+function deleteCustomForm(formId) {
+  let storedForms = JSON.parse(localStorage.getItem('customForms')) || [];
+  storedForms = storedForms.filter(form => form.id !== formId);
+  localStorage.setItem('customForms', JSON.stringify(storedForms));
+
+  let storedResponses = JSON.parse(localStorage.getItem('formResponses')) || [];
+  storedResponses = storedResponses.filter(response => response.formId !== formId);
+  localStorage.setItem('formResponses', JSON.stringify(storedResponses));
+
+  loadCustomForms();
+  loadFormResponses();
+}
+
+document.getElementById("voiceNavBtn").addEventListener("click", () => {
+  const voiceStatus = document.getElementById("voiceStatus");
+
+  if (!("webkitSpeechRecognition" in window || "SpeechRecognition" in window)) {
+    voiceStatus.textContent = "Speech recognition not supported in this browser.";
+    voiceStatus.style.color = "red";
+    return;
+  }
+
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const recognition = new SpeechRecognition();
+  recognition.lang = "en-US";
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
+
+  voiceStatus.textContent = "Listening... Please say the form name.";
+  voiceStatus.style.color = "blue";
+
+  recognition.start();
+
+  recognition.onresult = (event) => {
+    const spokenText = event.results[0][0].transcript.toLowerCase().trim();
+    voiceStatus.textContent = `You said: "${spokenText}"`;
+
+    const formMap = {
+      "registration": "registration",
+      "education": "education",
+      "health": "healthcare",
+      "healthcare": "healthcare",
+      "medical": "healthcare",
+      "business": "business",
+      "government": "government",
+      "employment": "employment",
+      "feedback": "feedback",
+      "contact": "contact"
+    };
+
+    const matchedKey = Object.keys(formMap).find(key => spokenText.includes(key));
+
+    if (matchedKey) {
+      voiceStatus.textContent = `Opening ${matchedKey} form...`;
+      voiceStatus.style.color = "green";
+      setTimeout(() => {
+        redirectToForm(formMap[matchedKey]);
+      }, 1000);
+      return;
+    }
+
+    // Your updated logic for custom forms
+    const storedForms = JSON.parse(localStorage.getItem("customForms")) || [];
+    const matchedForm = storedForms.find(f => spokenText.includes(f.name.toLowerCase()));
+
+    if (matchedForm) {
+      voiceStatus.textContent = `Opening ${matchedForm.name}...`;
+      voiceStatus.style.color = "green";
+      setTimeout(() => {
+        window.location.href = `custom-form.html?formId=${matchedForm.id}`;
+      }, 1000);
+      return;
+    }
+
+    voiceStatus.textContent = "Form not recognized. Please try again.";
+    voiceStatus.style.color = "red";
+  };
+
+  recognition.onerror = (event) => {
+    voiceStatus.textContent = "Error occurred during speech recognition.";
+    voiceStatus.style.color = "red";
+    console.error(event);
+  };
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadCustomForms();
+  loadFormResponses();
+
+  const formName = document.querySelector('h1')?.textContent || "form";
+  const synth = window.speechSynthesis;
+  const utterance = new SpeechSynthesisUtterance(`You are now in ${formName}`);
+  utterance.lang = 'en-US';
+  utterance.rate = 1;
+  synth.speak(utterance);
+
+  const logoutBtn = document.getElementById("logoutBtn");
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", function () {
+      alert("Logging out...");
+      window.location.href = "index.html";
+    });
+  } else {
+    console.warn("Logout button not found.");
+  }
+
+  if (typeof initializeVoiceNavigation === "function") {
+    initializeVoiceNavigation();
+  }
+});
+
+document.getElementById('logoutBtn').addEventListener('click', function () {
+  localStorage.removeItem('isLoggedIn');
+  localStorage.clear();
+  window.location.href = 'index.html';
+});
+</script>
+
+</body>
+</html>

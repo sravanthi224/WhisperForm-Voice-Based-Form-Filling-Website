@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>Custom Form - WhisperForms</title>
+
+  <!-- Bootstrap and Fonts -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet" />
+
+<style>
+  body {
+    background: #D09683;
+    min-height: 100vh;
+  }
+
+  .section-header {
+    background-color: #330000;
+    color: white;
+    padding: 80px 20px 60px;
+    text-align: center;
+    font-family: 'Cinzel Decorative', serif;
+    font-style: italic;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    margin: 0;
+    border-bottom: 4px solid #D09683;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    animation: slideDown 0.7s ease-out;
+  }
+
+  .section-box {
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 35px 30px;
+    border-radius: 15px;
+    border: 1px solid #ffffff55;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(6px);
+    margin: 40px auto;
+    max-width: 700px;
+    animation: fadeInUp 1s ease-out;
+  }
+
+  #dynamicForm label {
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    margin-bottom: 6px;
+    display: block;
+    color: #330000;
+    transition: color 0.3s ease;
+    cursor: pointer;
+  }
+
+  #dynamicForm label:hover {
+    color: #73605B;
+  }
+
+  #dynamicForm input,
+  #dynamicForm textarea {
+    border: 2px solid #330000;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    padding: 12px 14px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    animation: fieldSlideUp 0.6s ease-in-out;
+    width: 100%;
+  }
+
+  #dynamicForm input:focus,
+  #dynamicForm textarea:focus {
+    border-color: #330000;
+    box-shadow: 0 0 8px rgba(51, 0, 0, 0.5);
+    outline: none;
+  }
+
+  /* Input and mic button horizontal group */
+  .input-mic-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 6px;
+    animation: fadeInUp 0.8s ease-in-out;
+  }
+
+  .input-mic-group input,
+  .input-mic-group textarea {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .input-mic-group .mic-btn {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border-radius: 50%;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: pulse 2s infinite;
+  }
+
+  /* Submit and speak buttons full width */
+  .text-center .mic-btn {
+    border-radius: 10px;
+    font-size: 15px;
+    padding: 16px 28px;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    display: block;
+    animation: pulse 2s infinite;
+  }
+
+  .mic-btn {
+    background: #330000;
+    color: white;
+    border: none;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    transition: background 0.35s ease, transform 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    user-select: none;
+    cursor: pointer;
+  }
+
+  .mic-btn:hover,
+  .mic-btn:focus {
+    background: #73605B;
+    transform: scale(1.05);
+    outline: none;
+  }
+
+  @media (max-width: 767px) {
+    .section-box {
+      padding: 25px 20px;
+    }
+
+    #dynamicForm label {
+      font-size: 0.95rem;
+    }
+
+    .mic-btn {
+      font-size: 16px;
+      padding: 12px 20px;
+    }
+
+    .input-mic-group {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .input-mic-group .mic-btn {
+      align-self: flex-end;
+      margin-top: 8px;
+    }
+  }
+
+  /* Animations */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-100px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fieldSlideUp {
+    0% {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+      box-shadow: 0 0 0 0 rgba(51, 0, 0, 0.5);
+    }
+    70% {
+      transform: scale(1.05);
+      box-shadow: 0 0 0 12px rgba(51, 0, 0, 0);
+    }
+    100% {
+      transform: scale(1);
+      box-shadow: 0 0 0 0 rgba(51, 0, 0, 0);
+    }
+  }
+</style>
+
+</head>
+
+<body>
+  <!-- Header -->
+  <div class="section-header">
+    <h1 id="formTitle">Custom Form</h1>
+  </div>
+
+  <!-- Form Container -->
+  <div class="container mt-4 mb-5">
+    <div class="section-box">
+      <form id="dynamicForm">
+        <div id="dynamicFields"></div>
+
+        <!-- Speak to submit or go back -->
+        <div class="text-center mt-4">
+          <button type="button" class="mic-btn" onclick="startSpeechRecognition()">Speak to Submit or Go Back</button>
+        </div>
+
+        <!-- Submit button -->
+        <div class="text-center mt-3">
+          <button type="submit" class="mic-btn">Submit Form</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+      window.addEventListener('DOMContentLoaded', () => {
+    const formName = document.querySelector('h1')?.textContent || "form";
+    const synth = window.speechSynthesis;
+    const utterance = new SpeechSynthesisUtterance(`You are now filling the ${formName} form`);
+    utterance.lang = 'en-US';
+    utterance.rate = 1;
+    synth.speak(utterance);
+  });
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const urlParams = new URLSearchParams(window.location.search);
+      const formId = urlParams.get('formId');
+      const storedForms = JSON.parse(localStorage.getItem('customForms')) || [];
+      const form = storedForms.find(f => f.id === formId);
+
+      if (!form) {
+        speakAlert('Form not found! Redirecting...');
+        alert('Form not found!');
+        window.location.href = 'form-selection.html';
+        return;
+      }
+
+      document.getElementById('formTitle').innerText = form.name;
+      const dynamicFields = document.getElementById('dynamicFields');
+
+      form.fields.forEach(field => {
+        const formGroup = document.createElement('div');
+        formGroup.className = 'mb-3';
+
+        const label = document.createElement('label');
+        label.innerText = field.name;
+        label.setAttribute('for', field.id);
+
+        // Enhancement 1: speak when label is clicked
+        label.addEventListener('click', () => speakText(field.name));
+
+        let inputElement;
+        switch (field.type) {
+          case 'textarea':
+            inputElement = document.createElement('textarea');
+            inputElement.rows = 3;
+            break;
+          case 'checkbox':
+          case 'radio':
+            inputElement = document.createElement('input');
+            inputElement.type = field.type;
+            inputElement.value = 'Yes';
+            break;
+          default:
+            inputElement = document.createElement('input');
+            inputElement.type = field.type;
+        }
+
+        inputElement.className = 'form-control';
+        inputElement.id = field.id;
+        inputElement.name = field.id;
+        inputElement.required = true;
+
+        // Enhancement 1: speak when input is clicked
+        inputElement.addEventListener('focus', () => speakText(field.name));
+
+        const micButton = document.createElement('button');
+        micButton.type = 'button';
+        micButton.className = 'mic-btn mt-2';
+        micButton.innerText = '🎙️';
+
+        // Enhancement 2: speak name before starting speech input
+        micButton.addEventListener('click', () => {
+          speakText(field.name, () => startSpeechForField(field.id));
+        });
+
+        const inputMicGroup = document.createElement('div');
+        inputMicGroup.className = 'input-mic-group';
+        inputMicGroup.appendChild(inputElement);
+        inputMicGroup.appendChild(micButton);
+
+        formGroup.appendChild(label);
+        formGroup.appendChild(inputMicGroup);
+        dynamicFields.appendChild(formGroup);
+      });
+
+      document.getElementById('dynamicForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const formData = {};
+        form.fields.forEach(field => {
+          const element = document.getElementById(field.id);
+          if (field.type === 'checkbox') {
+            formData[field.name] = element.checked ? 'Yes' : 'No';
+          } else if (field.type === 'radio') {
+            formData[field.name] = element.checked ? element.value : '';
+          } else {
+            formData[field.name] = element.value;
+          }
+        });
+
+        const responses = JSON.parse(localStorage.getItem('formResponses')) || {};
+        if (!responses[formId]) {
+          responses[formId] = [];
+        }
+        const timestamp = new Date().toLocaleString();
+        responses[formId].push({ timestamp, responseData: formData });
+        localStorage.setItem('formResponses', JSON.stringify(responses));
+
+        speakAlert('Form submitted successfully!');
+        alert('Form submitted successfully!');
+        window.location.href = 'form-selection.html';
+      });
+    });
+
+    function startSpeechForField(fieldId) {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        speakAlert('Speech recognition is not supported in this browser.');
+        alert('Speech recognition is not supported in this browser.');
+        return;
+      }
+
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'en-US';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      recognition.onresult = event => {
+        const spokenText = event.results[0][0].transcript;
+        document.getElementById(fieldId).value = spokenText;
+      };
+
+      recognition.onerror = () => {
+        speakAlert('Speech recognition failed. Try again.');
+        alert('Speech recognition failed. Try again.');
+      };
+
+      recognition.start();
+    }
+
+    function startSpeechRecognition() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        speakAlert('Speech recognition is not supported in this browser.');
+        alert('Speech recognition is not supported in this browser.');
+        return;
+      }
+
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'en-US';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      recognition.onresult = event => {
+        const spokenText = event.results[0][0].transcript.toLowerCase();
+        if (spokenText.includes('submit')) {
+          document.getElementById('dynamicForm').requestSubmit();
+        } else if (spokenText.includes('go back') || spokenText.includes('back')) {
+          speakAlert('Going back to form selection.');
+          window.location.href = 'form-selection.html';
+        } else {
+          speakAlert('Command not recognized. Please say "Submit" or "Go Back".');
+          alert('Command not recognized. Please say "Submit" or "Go Back".');
+        }
+      };
+
+      recognition.onerror = () => {
+        speakAlert('Speech recognition failed. Try again.');
+        alert('Speech recognition failed. Try again.');
+      };
+
+      recognition.start();
+    }
+
+    // Enhancement 3: Speak any alert message
+    function speakAlert(message) {
+      speakText(message);
+    }
+
+    // Speak text with optional callback when speaking is finished
+    function speakText(message, callback = null) {
+      const utterance = new SpeechSynthesisUtterance(message);
+      utterance.lang = 'en-US';
+      if (callback) {
+        utterance.onend = callback;
+      }
+      window.speechSynthesis.speak(utterance);
+    }
+    
+  </script>
+
+</body>
+</html>

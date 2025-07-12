@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WhisperForms - Voice Login & Signup</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: #D09683;
+      min-height: 100vh;
+    }
+
+    section {
+      background-color: #330000;
+      width: 100%;
+      text-align: center;
+      padding: 50px 0;
+    }
+
+    section h1 {
+      color: white;
+      font-family: 'Cinzel Decorative', serif;
+      font-style: italic;
+      font-size: 56px;
+    }
+
+    .container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      width: 90%;
+      max-width: 400px;
+      margin: 60px auto 20px;
+      text-align: center;
+      animation: slideUp 0.7s ease-in-out;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #330000;
+      font-weight: 600;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 45px 12px 15px;
+      border: 2px solid #330000;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: border 0.3s;
+    }
+
+    input:focus {
+      border-color: #73605B;
+      outline: none;
+    }
+
+    .mic-btn {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .mic-btn svg {
+      width: 20px;
+      height: 20px;
+      fill: #73605B;
+      transition: transform 0.2s ease;
+    }
+
+    .mic-btn:hover svg {
+      transform: scale(1.2);
+    }
+
+ .remember-wrapper {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+}
+
+.remember-wrapper label {
+  display: inline-flex;
+  align-items: center;
+  font-size: 14px;
+  color: #330000;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.remember-wrapper input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #330000; /* Makes the checkbox match your color theme */
+  cursor: pointer;
+}
+
+
+    .btn {
+      background: #330000;
+      color: #fff;
+      border: none;
+      padding: 12px;
+      width: 100%;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .btn:hover {
+      background: #73605B;
+    }
+
+    .toggle-btn {
+      margin-top: 15px;
+      color: #330000;
+      cursor: pointer;
+      font-size: 14px;
+      text-decoration: underline;
+      transition: color 0.3s;
+    }
+
+    .toggle-btn:hover {
+      color: #73605B;
+    }
+
+    .speak-btn {
+      background: #330000;
+      color: #f7fdfb;
+      border: none;
+      padding: 10px 15px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 8px;
+      margin-top: 15px;
+      transition: background 0.3s;
+    }
+
+    .speak-btn:hover {
+      background: #73605B;
+      color: #fff;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        width: 95%;
+        padding: 20px;
+      }
+
+      section h1 {
+        font-size: 32px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <section>
+    <h1>WhisperForms</h1>
+  </section>
+
+   <form class="container" novalidate>
+    <h2 id="form-title">Login</h2>
+
+    <div class="input-group" id="username-group" style="display: none;">
+      <input type="text" id="username" placeholder="Username" aria-label="Username" autocomplete="off" onclick="speakField('Username')">
+      <button class="mic-btn" type="button" onclick="startSpeech('username')">
+        <svg viewBox="0 0 24 24"><path d="M12 14a3 3 0 003-3V5a3 3 0 00-6 0v6a3 3 0 003 3zm5-3a5 5 0 01-10 0H5a7 7 0 0014 0h-2zm-5 9v-3h-2v3h2z"/></svg>
+      </button>
+    </div>
+
+    <div class="input-group">
+      <input type="email" id="email" placeholder="Email" aria-label="Email" autocomplete="off" onclick="speakField('Email')">
+      <button class="mic-btn" type="button" onclick="startSpeech('email')">
+        <svg viewBox="0 0 24 24"><path d="M12 14a3 3 0 003-3V5a3 3 0 00-6 0v6a3 3 0 003 3zm5-3a5 5 0 01-10 0H5a7 7 0 0014 0h-2zm-5 9v-3h-2v3h2z"/></svg>
+      </button>
+    </div>
+
+    <div class="input-group">
+      <input type="password" id="password" placeholder="Password" aria-label="Password" autocomplete="off" onclick="speakField('Password')">
+      <button class="mic-btn" type="button" onclick="startSpeech('password')">
+        <svg viewBox="0 0 24 24"><path d="M12 14a3 3 0 003-3V5a3 3 0 00-6 0v6a3 3 0 003 3zm5-3a5 5 0 01-10 0H5a7 7 0 0014 0h-2zm-5 9v-3h-2v3h2z"/></svg>
+      </button>
+      <button class="mic-btn" type="button" onclick="togglePassword()" style="right: 40px;">
+        <svg id="eyeIcon" viewBox="0 0 24 24">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8zm11 3a3 3 0 100-6 3 3 0 000 6z"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="remember-wrapper">
+  <label>
+    <input type="checkbox" id="rememberMe" aria-label="Remember Me">
+    Remember Me
+  </label>
+</div>
+
+    <button class="btn" type="button" onclick="submitForm()">Submit</button>
+    <p class="toggle-btn" onclick="toggleForm()">Don't have an account? Sign up</p>
+    <button class="speak-btn" type="button" onclick="startNavigationSpeech()">Speak</button>
+  </form>
+
+ <script>
+  
+    let isSignup = false;
+
+    function toggleForm() {
+      isSignup = !isSignup;
+      document.getElementById("form-title").textContent = isSignup ? "Sign Up" : "Login";
+      document.getElementById("username-group").style.display = isSignup ? "block" : "none";
+      speak(isSignup ? "You are now in Sign Up form" : "You are now in Login form");
+    }
+
+    function togglePassword() {
+      const pwd = document.getElementById("password");
+      pwd.type = pwd.type === "password" ? "text" : "password";
+    }
+
+    function startSpeech(inputId) {
+      if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
+        speak("Sorry, your browser does not support voice input.");
+        return;
+      }
+
+      const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+      recognition.lang = "en-US";
+      recognition.onresult = function(event) {
+        document.getElementById(inputId).value = event.results[0][0].transcript.trim();
+      };
+      recognition.onerror = function(event) {
+        speak("Speech recognition failed");
+      };
+      recognition.start();
+    }
+
+    function speak(text) {
+      if (!("speechSynthesis" in window)) return;
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'en-US';
+      window.speechSynthesis.speak(utterance);
+    }
+
+    function speakField(fieldName) {
+      speak(`${fieldName} field`);
+    }
+
+function submitForm() {
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value.trim();
+  const username = document.getElementById("username").value.trim();
+
+  if (!email || !password || (isSignup && !username)) {
+    alert("Please fill all fields");
+    speak("Please fill all fields");
+    return;
+  }
+
+  let users = JSON.parse(localStorage.getItem("users") || "[]");
+
+  if (isSignup) {
+    // Check if user already exists
+    const userExists = users.some(user => user.email === email);
+    if (userExists) {
+      alert("User already exists");
+      speak("User already exists. Please sign in.");
+    } else {
+      // Add new user
+      users.push({ name: username, email, password });
+      localStorage.setItem("users", JSON.stringify(users));
+      alert("User registered successfully");
+      speak("Registration successful. Please sign in.");
+      toggleForm(); // Switch back to login form
+    }
+  } else {
+    // Login
+    const user = users.find(user => user.email === email && user.password === password);
+    if (!user) {
+      const emailExists = users.some(user => user.email === email);
+      if (!emailExists) {
+        alert("User not found");
+        speak("User not found. Please sign up.");
+      } else {
+        alert("Incorrect password");
+        speak("Incorrect password");
+      }
+    } else {
+      alert("Login successful");
+      speak("Login successful. Redirecting to form selection.");
+      localStorage.setItem("currentUser", email);
+      if (!document.getElementById("rememberMe").checked) {
+        sessionStorage.setItem("tempCurrentUser", email);
+      }
+      window.location.href = "form-selection.html";
+    }
+  }
+}
+
+
+    function startNavigationSpeech() {
+      if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
+        speak("Sorry, speech recognition is not available.");
+        return;
+      }
+
+      const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+      recognition.lang = "en-US";
+
+      recognition.onresult = function(event) {
+        const command = event.results[0][0].transcript.toLowerCase().trim();
+
+        if (isSignup) {
+          if (command.includes("sign in") || command.includes("login")) {
+            toggleForm();
+          } else if (command.includes("register") || command.includes("submit") || command.includes("signup")) {
+            submitForm();
+          } else {
+            speak("Command not recognized for sign up page");
+          }
+        } else {
+          if (command.includes("sign up") || command.includes("register")) {
+            toggleForm();
+          } else if (command.includes("sign in") || command.includes("login") || command.includes("submit")) {
+            submitForm();
+          } else {
+            speak("Command not recognized for login page");
+          }
+        }
+      };
+
+      recognition.onerror = function(event) {
+        speak("Speech recognition failed. Please try again.");
+      };
+
+      recognition.start();
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const formName = document.querySelector('h1')?.textContent || "form";
+      speak(`You are now in ${formName}`);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,210 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color:#D09683;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+.container {
+    max-width: 600px;
+    margin: 200px auto 60px auto; /* increased top margin to avoid overlap */
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 1;
+}
+
+/* Form Header */
+.form-title {
+    background-color: #330000;
+    color: #ffffff;
+    font-family: 'Cinzel Decorative', serif;
+    font-style: italic;
+    padding: 60px 0;
+    text-align: center;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    margin-top: 0px;
+    animation: slideDown 0.7s ease-out;
+    animation: fadeInUp 1s ease-out;
+}
+
+.form-title h1 {
+    margin: 0;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+/* Input Groups */
+.input-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.input-group input,
+.input-group select,
+.input-group textarea {
+    flex: 1;
+    padding: 12px 14px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    font-family: 'Roboto', sans-serif;
+    animation: fieldSlideUp 0.6s ease-in-out;
+}
+
+.input-group input:focus,
+.input-group select:focus,
+.input-group textarea:focus {
+    border-color: #330000;
+    box-shadow: 0 0 5px rgba(51, 0, 0, 0.6);
+}
+
+/* Mic Button */
+.mic-btn {
+    background-color: #330000;
+    color: #ffffff;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin-left: 8px;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s, transform 0.2s;
+    animation: pulse 2s infinite;
+}
+
+.mic-btn:hover {
+    background-color: #4d0000;
+    transform: scale(1.1);
+}
+
+/* Labels */
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 700;
+    color: #330000;
+    font-size: 15px;
+    transition: color 0.3s ease;
+}
+
+/* Submit / Command Button */
+.voice-btn,
+button.btn {
+    background-color: #330000;
+    color: #ffffff;
+    padding: 12px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+    transition: background-color 0.3s, transform 0.2s;
+    font-family: 'Roboto', sans-serif;
+    animation: pulse 2s infinite;
+}
+
+.voice-btn:hover,
+button.btn:hover {
+    background-color: #330000;
+    transform: scale(1.02);
+}
+
+/* Back Link */
+.back-btn {
+    margin-top: 16px;
+    color: #330000;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: underline;
+    font-weight: 500;
+    font-size: 15px;
+    transition: color 0.3s;
+    animation: pulse 2s infinite;
+}
+
+.back-btn:hover {
+    color: #4d0000;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .container {
+        margin: 250px 20px 60px 20px; /* increased top margin on mobile */
+        padding: 16px;
+    }
+
+    .form-title h1 {
+        font-size: 24px;
+        padding: 20px 0;
+    }
+}
+ @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-100px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fieldSlideUp {
+      0% {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(51, 0, 0, 0.5);
+      }
+      70% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 12px rgba(51, 0, 0, 0);
+      }
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(51, 0, 0, 0);
+      }
+    }

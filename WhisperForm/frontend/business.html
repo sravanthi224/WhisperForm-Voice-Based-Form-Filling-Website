@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Business Form</title>
+    <link href="style.css" rel="stylesheet" />
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <h1 class="form-title">Business Form</h1>
+        <form id="businessForm">
+
+            <label for="businessName">Business Name</label>
+            <div class="input-group">
+                <input type="text" id="businessName" placeholder="Business Name" required />
+                <button type="button" class="mic-btn" data-field-id="businessName">🎙️</button>
+            </div>
+
+            <label for="email">Email</label>
+            <div class="input-group">
+                <input type="email" id="email" placeholder="Email" required />
+                <button type="button" class="mic-btn" data-field-id="email">🎙️</button>
+            </div>
+
+            <label for="phone">Phone Number</label>
+            <div class="input-group">
+                <input type="tel" id="phone" placeholder="Phone Number" required />
+                <button type="button" class="mic-btn" data-field-id="phone">🎙️</button>
+            </div>
+
+            <label for="address">Business Address</label>
+            <div class="input-group">
+                <input type="text" id="address" placeholder="Business Address" required />
+                <button type="button" class="mic-btn" data-field-id="address">🎙️</button>
+            </div>
+
+            <label for="industry">Industry Type</label>
+            <div class="input-group">
+                <select id="industry" required>
+                    <option value="">Select Industry</option>
+                    <option value="Retail">Retail</option>
+                    <option value="Technology">Technology</option>
+                    <option value="Healthcare">Healthcare</option>
+                    <option value="Finance">Finance</option>
+                    <option value="Other">Other</option>
+                </select>
+                <button type="button" class="mic-btn" data-field-id="industry">🎙️</button>
+            </div>
+
+            <label for="services">Services Offered</label>
+            <div class="input-group">
+                <textarea id="services" placeholder="Describe Services" required></textarea>
+                <button type="button" class="mic-btn" data-field-id="services">🎙️</button>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <p class="back-btn" onclick="goBack()">⬅ Back to Forms</p>
+
+            <!-- Voice Command Button -->
+            <button type="button" class="voice-btn" data-field-id="command">🎙️ Speak Command</button>
+
+        </form>
+    </div>
+</body>
+</html>

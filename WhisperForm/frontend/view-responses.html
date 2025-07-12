@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>View All Responses</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #D09683;
+      color: #330000;
+      padding-top: 60px;
+    }
+    .container {
+      max-width: 1100px;
+      margin: 140px;
+    }
+    .section-header {
+      background-color: #330000;
+      color: #ffffff;
+      font-family: 'Cinzel Decorative', serif;
+      font-style: italic;
+      padding: 60px 0;
+      text-align: center;
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 999;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      margin-top: 0px;
+    }
+    .section-header h1 {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #fdfbfb;
+    }
+    .form-section {
+        background-color: rgba(255, 255, 255, 0.3); /* Transparent background */
+        border: 2px solid #330000;
+        border-radius: 16px;
+        padding: 30px;
+        margin-bottom: 40px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      }
+
+    .form-title {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 2rem;
+      font-weight: bold;
+      text-align: center;
+      color: #330000;
+      margin-bottom: 25px;
+      text-shadow: 1px 1px 1px #ffffff;
+    }
+
+    .response-card {
+      background-color: #fff;
+      border: 2px solid #330000;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .response-card h5 {
+      font-weight: 600;
+    }
+
+    .response-card button {
+      margin-top: 10px;
+    }
+
+    .back-btn {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="section-header">
+    <h1>All Form Responses</h1>
+  </div>
+  <button class="btn btn-dark back-btn" style="background-color: #fff;color: #330000;" onclick="window.location.href='form-selection.html'">Back</button>
+  <div id="allResponses"></div>
+</div>
+
+<script>
+  function speakText(message) {
+    const utterance = new SpeechSynthesisUtterance(message);
+    utterance.lang = 'en-US';
+    utterance.rate = 1;
+    window.speechSynthesis.speak(utterance);
+  }
+
+  function formatFormName(formId) {
+    return 'CustomForm_' + formId.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()) + ' Form';
+  }
+
+  function deleteResponse(formId, index) {
+    const allData = JSON.parse(localStorage.getItem('formResponses')) || {};
+    if (!allData[formId]) return;
+
+    const confirmDelete = confirm("Are you sure you want to delete this response?");
+    if (!confirmDelete) return;
+
+    allData[formId].splice(index, 1);
+    if (allData[formId].length === 0) {
+      delete allData[formId];
+    }
+
+    localStorage.setItem('formResponses', JSON.stringify(allData));
+    loadResponses(); // Refresh view
+  }
+
+  function loadResponses() {
+    const container = document.getElementById('allResponses');
+    const allData = JSON.parse(localStorage.getItem('formResponses')) || {};
+    const formDefinitions = JSON.parse(localStorage.getItem('customForms')) || [];
+
+    container.innerHTML = ''; // Clear previous entries
+    const formIds = Object.keys(allData);
+    let totalResponses = 0;
+
+    if (formIds.length === 0) {
+      container.innerHTML = "<p class='text-center text-muted'>No responses found.</p>";
+      speakText("No responses found yet.");
+      return;
+    }
+
+    formIds.forEach(formId => {
+      const responses = allData[formId];
+      if (!responses || responses.length === 0) return;
+
+      totalResponses += responses.length;
+
+      const formDef = formDefinitions.find(f => f.id === formId);
+const displayName = formDef && formDef.name
+  ? `CF_${formDef.name} Form`  // Use user-defined custom form name
+  : formId.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()); // Format predefined form name
+
+
+      const section = document.createElement('div');
+      section.className = 'form-section';
+
+      const formTitle = document.createElement('h2');
+      formTitle.className = 'form-title';
+      formTitle.textContent = `${displayName} (${responses.length} responses)`;
+      section.appendChild(formTitle);
+
+      responses.forEach((res, index) => {
+        const card = document.createElement('div');
+        card.className = 'response-card';
+
+        const timestamp = res.timestamp || 'Unknown time';
+        const responseData = res.responseData || res.responseSummary || res;
+
+        card.innerHTML = `
+          <h5>Submitted on: ${timestamp}</h5>
+          <pre class="text-dark bg-light p-2">${JSON.stringify(responseData, null, 2)}</pre>
+          <button class="btn btn-danger btn-sm" onclick="deleteResponse('${formId}', ${index})">Delete Response</button>
+        `;
+
+        section.appendChild(card);
+      });
+
+      container.appendChild(section);
+    });
+
+    if (totalResponses > 0) {
+      speakText(`Displaying ${totalResponses} saved form responses`);
+    } else {
+      speakText("No responses found yet.");
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', loadResponses);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Custom Form Builder</title>
+  <link href="style.css" rel="stylesheet" />
+</head>
+<body>
+  <div class="container">
+    <h1 class="form-title">Custom Form Builder</h1>
+
+    <!-- Form Name -->
+    <label for="formName">Form Name</label>
+    <div class="input-group">
+      <input type="text" id="formName" placeholder="Enter form name" required onclick="speakFieldName('Form Name')">
+      <button type="button" class="mic-btn" onclick="speakAndListen('Form Name', 'formName')">🎙️</button>
+    </div>
+
+    <!-- Field Creator -->
+    <label for="fieldName">Field Name</label>
+    <div class="input-group">
+      <input type="text" id="fieldName" placeholder="Enter field name" required onclick="speakFieldName('Field Name')">
+      <button type="button" class="mic-btn" onclick="speakAndListen('Field Name', 'fieldName')">🎙️</button>
+    </div>
+
+    <label for="fieldType">Field Type</label>
+    <div class="input-group">
+      <select id="fieldType" onclick="speakFieldName('Field Type')">
+        <option value="text">Text</option>
+        <option value="number">Number</option>
+        <option value="email">Email</option>
+        <option value="date">Date</option>
+        <option value="checkbox">Checkbox</option>
+        <option value="radio">Radio</option>
+      </select>
+    </div>
+
+    <!-- Add Field Button -->
+    <button type="button" class="voice-btn" onclick="addField()">+ Add Field</button>
+
+    <!-- Fields Preview -->
+    <h3>Preview Fields:</h3>
+    <div id="fieldsPreview"></div>
+
+    <!-- Submit Form Button -->
+    <button type="button" class="voice-btn" onclick="submitForm()">Submit Form</button>
+  </div>
+
+  <script>
+    let fields = [];
+
+    function speakText(text) {
+      const synth = window.speechSynthesis;
+      const utterance = new SpeechSynthesisUtterance(text);
+      synth.speak(utterance);
+    }
+
+    function speakFieldName(fieldLabel) {
+      speakText(fieldLabel);
+    }
+
+    function speakAndListen(fieldLabel, targetId) {
+      speakText(fieldLabel);
+      const interval = setInterval(() => {
+        if (!speechSynthesis.speaking) {
+          clearInterval(interval);
+          startSpeechRecognition(targetId);
+        }
+      }, 100);
+    }
+
+    function startSpeechRecognition(targetId) {
+      const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+      recognition.lang = 'en-US';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      recognition.start();
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript.trim();
+        document.getElementById(targetId).value = transcript;
+      };
+
+      recognition.onerror = (event) => {
+        console.error('Speech recognition error:', event.error);
+      };
+    }
+
+    function addField() {
+      const fieldName = document.getElementById('fieldName').value.trim();
+      const fieldType = document.getElementById('fieldType').value;
+
+      if (!fieldName) {
+        const msg = 'Please enter a field name.';
+        alert(msg);
+        speakText(msg);
+        return;
+      }
+
+      const fieldId = `field_${Date.now()}`;
+      fields.push({ id: fieldId, name: fieldName, type: fieldType });
+
+      renderFields();
+      document.getElementById('fieldName').value = '';
+
+      speakText(`Field ${fieldName} of type ${fieldType} added successfully.`);
+    }
+
+    function renderFields() {
+      const preview = document.getElementById('fieldsPreview');
+      preview.innerHTML = '';
+
+      fields.forEach((field) => {
+        const fieldDiv = document.createElement('div');
+        fieldDiv.classList.add('input-group');
+        fieldDiv.setAttribute('tabindex', '0');
+
+        fieldDiv.addEventListener('click', () => {
+          speakText(field.name);
+        });
+
+        const label = document.createElement('label');
+        label.textContent = `${field.name} (${field.type})`;
+
+        const input = createInputForType(field);
+
+        const deleteBtn = document.createElement('button');
+        deleteBtn.type = 'button';
+        deleteBtn.classList.add('mic-btn');
+        deleteBtn.innerText = '🗑️';
+        deleteBtn.onclick = () => deleteField(field.id);
+
+        fieldDiv.appendChild(label);
+        fieldDiv.appendChild(input);
+        fieldDiv.appendChild(deleteBtn);
+        preview.appendChild(fieldDiv);
+      });
+    }
+
+    function createInputForType(field) {
+      const input = document.createElement('input');
+      input.type = field.type;
+      input.placeholder = `Enter ${field.name}`;
+      input.id = field.id;
+
+      input.addEventListener('click', () => {
+        speakText(field.name);
+      });
+
+      return input;
+    }
+
+    function deleteField(fieldId) {
+      fields = fields.filter(field => field.id !== fieldId);
+      renderFields();
+    }
+
+    function submitForm() {
+      const formName = document.getElementById('formName').value.trim();
+
+      if (!formName) {
+        const msg = 'Please enter form name.';
+        alert(msg);
+        speakText(msg);
+        return;
+      }
+
+      if (fields.length === 0) {
+        const msg = 'Please add at least one field.';
+        alert(msg);
+        speakText(msg);
+        return;
+      }
+
+      const formId = `customForm_${Date.now()}`;
+      const formDefinition = {
+        id: formId,
+        name: formName,
+        fields: fields
+      };
+
+      let storedForms = JSON.parse(localStorage.getItem('customForms')) || [];
+      storedForms.push(formDefinition);
+      localStorage.setItem('customForms', JSON.stringify(storedForms));
+
+      speakText(`Form ${formName} submitted successfully with ${fields.length} fields.`);
+
+      // Delay to finish speaking before redirect
+      setTimeout(() => {
+        window.location.href = 'form-selection.html';
+      }, 2500);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+    const formName = document.querySelector('h1')?.textContent || "form";
+    const synth = window.speechSynthesis;
+    const utterance = new SpeechSynthesisUtterance(`You are now in ${formName}`);
+    utterance.lang = 'en-US';
+    utterance.rate = 1;
+    synth.speak(utterance);
+  });
+  </script>
+</body>
+</html>
